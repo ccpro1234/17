@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Baccarat DNA x9 QUANTUM V12</title>
+<style>
+:root {
+    --bg-deep: #020617;
+    --bg-card: #0f172a;
+    --cyan: #22d3ee;
+    --blue: #3b82f6;
+    --red: #ef4444;
+    --green: #22c55e;
+    --gray: #94a3b8;
+    --gold: #facc15;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{margin:0;background:var(--bg-deep);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:white;overflow-x:hidden;}
+.app{width:100vw;height:100vh;margin:0 auto;position:relative;display:flex;flex-direction:column;max-width:1000px;}
+
+/* ===== OVERLAYS ===== */
+#loginOverlay{
+    position:fixed;
+    inset:0;
+    background:rgba(2,6,23,0.98);
+    z-index:999999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
+.loginBox{width:320px;background:var(--bg-card);padding:40px;border-radius:24px;border:1px solid rgba(34,211,238,0.3);box-shadow:0 25px 60px rgba(0,0,0,0.6);}
+.loginBox h2{margin:0 0 25px;color:var(--cyan);letter-spacing:4px;font-weight:900;}
+.loginBox input{width:100%;height:50px;margin-bottom:15px;background:var(--bg-deep);border:1px solid #334155;color:white;border-radius:12px;padding:0 15px;outline:none;font-size:16px;text-align:center;}
+.loginBox button{width:100%;height:50px;background:linear-gradient(135deg,var(--blue),#1d4ed8);border:none;color:white;font-weight:bold;border-radius:12px;cursor:pointer;font-size:16px;box-shadow:0 4px 15px rgba(37,99,235,0.4);}
+
+/* ===== STATUS BAR ===== */
+#expiryBar{
+display:none;
+width:100%;
+text-align:center;
+font-size:10px;
+padding:6px;
+background:rgba(15,23,42,0.8);
+color:#94a3b8;
+border-bottom:1px solid #1f2937;
+letter-spacing:1px;
+}
+
+/* ===== QUANTUM CORE (3 CORE SYSTEMS) ===== */
+.top{padding:16px;display:flex;flex-direction:column;gap:12px;}
+#quantumBox{
+    background:radial-gradient(circle at top left, rgba(34,211,238,0.15), transparent 70%), linear-gradient(180deg,var(--bg-card),var(--bg-deep));
+    border-radius:28px; padding:24px; border:1px solid rgba(34,211,238,0.4);
+    box-shadow:0 0 50px rgba(0,0,0,0.7), 0 0 25px rgba(34,211,238,0.15) inset;
+    position:relative; overflow:hidden;
+}
+#quantumBox::before{
+    content:""; position:absolute; top:0; left:-100%; width:100%; height:100%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    animation:shine 4s infinite linear;
+}
+@keyframes shine{ 0%{left:-100%} 100%{left:100%} }
+
+.q-header{display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;}
+.q-title{font-size:13px; font-weight:900; color:var(--cyan); letter-spacing:2px; text-transform:uppercase;}
+#shoeProfile{font-size:11px; padding:5px 12px; background:rgba(34,211,238,0.1); border-radius:20px; color:var(--cyan); border:1px solid rgba(34,211,238,0.2); font-weight:bold;}
+
+.q-main{display:flex; flex-direction:column; align-items:center; justify-content:center; margin:15px 0;}
+#qPredict{font-size:72px; font-weight:900; letter-spacing:4px; transition: all 0.3s ease;}
+.side-P{color:var(--blue); text-shadow:0 0 30px rgba(59,130,246,0.6);}
+.side-B{color:var(--red); text-shadow:0 0 30px rgba(239,68,68,0.6);}
+.side-wait{color:var(--gray); font-size:48px; opacity:0.5;}
+
+#aiReasoning{font-size:13px; color:#cbd5e1; font-style:italic; text-align:center; margin-top:15px; min-height:20px; line-height:1.5;}
+
+.q-metrics{display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:25px;}
+.metric-card{background:rgba(15,23,42,0.5); padding:15px; border-radius:20px; border:1px solid rgba(255,255,255,0.05); text-align:center;}
+.metric-label{font-size:10px; color:var(--gray); margin-bottom:6px; text-transform:uppercase; font-weight:bold; letter-spacing:1px;}
+.metric-value{font-size:22px; font-weight:900; color:white;}
+
+/* ===== CONTROLS ===== */
+.btns{display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:15px;}
+.btns button{height:55px; border:none; border-radius:16px; font-weight:900; font-size:18px; color:white; cursor:pointer; transition:transform 0.1s, opacity 0.2s;}
+.btns button:active{transform:scale(0.92);}
+.btn-p{background:var(--blue); box-shadow:0 5px 0 #1d4ed8;}
+.btn-b{background:var(--red); box-shadow:0 5px 0 #b91c1c;}
+.btn-t{background:var(--green); box-shadow:0 5px 0 #15803d;}
+.btn-util{background:#334155; font-size:12px !important; box-shadow:0 5px 0 #1e293b;}
+
+/* ===== BODY & HISTORY ===== */
+.body{flex:1; display:flex; flex-direction:column; overflow:hidden; padding:0 16px 16px;}
+.history-row{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+}
+
+canvas.road{
+    background:#000;
+    border-radius:16px;
+    border:1px solid #1e293b;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+
+#beadRoad{
+    width:280px;
+    height:130px;
+    flex:none;
+}
+
+.systems-grid{flex:1; overflow-y:auto; display:grid; grid-template-columns:1fr; gap:10px; padding-right:5px;}
+.sys-row{
+    background:var(--bg-card); border-radius:18px; padding:15px; display:flex; align-items:center;
+    border:1px solid rgba(255,255,255,0.04); position:relative; overflow:hidden; transition: 0.3s;
+}
+.sys-info{
+    width:90px;
+    flex:none;
+}
+.sys-name{
+    font-size:12px;
+    font-weight:900;
+    color:var(--gray);
+    margin-bottom:2px;
+}
+
+.sys-no{
+    font-size:9px;
+    color:#facc15;
+    font-weight:700;
+    margin-right:4px;
+    opacity:.8;
+}
+.sys-weight{font-size:10px; color:var(--cyan); font-family:monospace;}
+.sys-pred{width:50px; font-size:24px; font-weight:900; text-align:center;}
+.sys-stats{
+    width:70px;
+    text-align:center;
+    font-size:12px;
+    font-weight:bold;
+    color:#cbd5e1;
+}
+.sys-history{
+    display:grid;
+
+    /* 20 ช่องต่อแถว */
+    grid-template-columns:repeat(40,8px);
+
+    grid-auto-rows:8px;
+
+    gap:4px;
+
+    width:236px;
+
+    margin-left:5px;
+
+    align-items:center;
+}
+.sys-history span{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+}
+
+.radar-glow{
+    border-color: rgba(34,211,238,0.5);
+    background: linear-gradient(90deg, var(--bg-card), rgba(34,211,238,0.05));
+    animation:q-glow 2s infinite ease-in-out;
+}
+@keyframes q-glow{
+    0%, 100%{box-shadow:0 0 0 rgba(34,211,238,0)}
+    50%{box-shadow:0 0 20px rgba(34,211,238,0.15)}
+}
+/* ================= MOBILE SPLIT SCREEN MODE ================= */
+
+@media(max-width:768px){
+
+body{
+    overflow:auto;
+}
+
+
+.app{
+
+    width:100%;
+    height:auto;
+    min-height:100vh;
+    display:block;
+
+}
+
+
+/* ---------- TOP AI PANEL ---------- */
+
+.top{
+
+    padding:10px;
+    gap:10px;
+
+}
+
+
+#quantumBox{
+
+    padding:16px;
+    border-radius:20px;
+
+}
+
+
+.q-title{
+
+    font-size:11px;
+
+}
+
+
+#qPredict{
+
+    font-size:48px;
+
+}
+
+
+#aiReasoning{
+
+    font-size:12px;
+
+}
+
+
+
+.q-metrics{
+
+    gap:8px;
+    margin-top:15px;
+
+}
+
+
+.metric-card{
+
+    padding:10px;
+
+}
+
+
+.metric-value{
+
+    font-size:18px;
+
+}
+
+
+
+/* ---------- BUTTON ---------- */
+
+.btns{
+
+    grid-template-columns:repeat(5,1fr);
+    gap:6px;
+    margin-top:10px;
+
+}
+
+
+.btns button{
+
+    height:45px;
+    font-size:15px;
+
+}
+
+
+
+/* ---------- BODY SPLIT ---------- */
+
+
+.body{
+
+    display:block;
+    overflow:visible;
+    padding:0 10px 20px;
+
+}
+
+
+
+/* ---------- BEAD ROAD ---------- */
+
+
+.history-row{
+
+    width:100%;
+
+}
+
+
+#beadRoad{
+
+    width:100%;
+    max-width:360px;
+    height:120px;
+
+}
+
+
+
+/* ---------- SYSTEM LIST ---------- */
+
+
+.systems-grid{
+
+    display:flex;
+    flex-direction:column;
+
+    overflow:visible;
+
+    gap:8px;
+
+}
+
+
+/* ---------- SYSTEM CARD MOBILE ---------- */
+
+
+.sys-row{
+
+    width:100%;
+
+    padding:10px;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+}
+
+
+
+.sys-info{
+
+    width:75px;
+
+}
+
+
+.sys-name{
+
+    font-size:10px;
+
+}
+
+
+.sys-weight{
+
+    font-size:9px;
+
+}
+
+
+.sys-pred{
+
+    width:40px;
+    font-size:22px;
+
+}
+
+
+.sys-stats{
+
+    width:55px;
+    font-size:10px;
+
+}
+
+
+
+/* ซ่อนประวัติวงกลมบนมือถือเพื่อให้ครบ 9 ระบบ */
+
+.sys-history{
+
+    display:none;
+
+}
+
+
+}
+
+
+
+/* ================= SMALL PHONE ================= */
+
+@media(max-width:400px){
+
+
+#qPredict{
+
+    font-size:40px;
+
+}
+
+
+.q-metrics{
+
+    grid-template-columns:1fr 1fr;
+
+}
+
+
+.btns button{
+
+    font-size:13px;
+
+}
+
+
+#beadRoad{
+
+    height:100px;
+
+}
+
+
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN ต้องอยู่นอก app -->
+<div id="loginOverlay">
+
+  <div class="loginBox" id="loginBox">
+
+    <h2>QUANTUM 12 สาย</h2>
+
+   <input id="user" placeholder="USER" type="text">
+<input id="pass" placeholder="PASSWORD" type="password">
+
+<div style="
+    margin:10px 0 20px;
+    font-size:13px;
+    color:#94a3b8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+">
+
+<input 
+type="checkbox" 
+id="showPass"
+onclick="togglePassword()"
+style="
+width:16px;
+height:16px;
+cursor:pointer;
+">
+
+<label for="showPass" style="cursor:pointer;">
+แสดง Password
+</label>
+
+</div>
+
+    <button onclick="login()">
+        INITIALIZE SYSTEM
+    </button>
+
+    <div id="loginErr"
+    style="
+    margin-top:15px;
+    color:#ef4444;
+    font-size:13px;
+    ">
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ระบบหลัก -->
+<div class="app" id="app" style="display:none;">
+
+
+    <!-- EXPIRE OVERLAY -->
+    <div id="expireOverlay" style="display:none;">
+        <h1 style="color:var(--red); font-size:40px; margin-bottom:10px;">SYSTEM LOCKED</h1>
+        <p style="color:var(--gray);">LICENSE EXPIRED: CONTACT ADMINISTRATOR</p>
+    </div>
+
+<div id="expiryBar">
+QUANTUM ENGINE 12 สาย • EXPIRE : 8 สิงหาคม 2569
+</div>
+    <div class="top">
+        <!-- MAIN PREDICTION BOX -->
+        <div id="quantumBox">
+            <div class="q-header">
+                <div class="q-title">ระบบวิเคราะห์หลัก QUANTUM 12 สาย</div>
+                <div id="shoeProfile">กำลังวิเคราะห์...</div>
+            </div>
+
+            <div class="q-main">
+                <div id="qPredict" class="side-wait">WAITING</div>
+                <div id="aiReasoning">รวบรวมข้อมูล DNA Cross-Validation...</div>
+            </div>
+
+            <div class="q-metrics">
+                <div class="metric-card">
+                    <div class="metric-label">ความน่าจะเป็น</div>
+                    <div id="qConfidence" class="metric-value">0%</div>
+                </div>
+                <div class="metric-card">
+                   <div class="metric-label">จำนวน AI ที่เห็นตรงกัน</div>
+                    <div id="qConsensus" class="metric-value">0 / 12</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="btns">
+            <button class="btn-p" onclick="addResult('P')">P</button>
+            <button class="btn-b" onclick="addResult('B')">B</button>
+            <button class="btn-t" onclick="addResult('T')">T</button>
+            <button class="btn-util" onclick="undo()">UNDO</button>
+            <button class="btn-util" onclick="clearAll()">RESET</button>
+        </div>
+    </div>
+
+ <div class="body">
+
+<div id="roadStats"
+style="
+display:flex;
+justify-content:center;
+gap:18px;
+margin-bottom:10px;
+font-weight:bold;
+font-size:14px;
+">
+
+<span style="color:var(--blue)">
+P :
+<span id="pCount">0</span>
+</span>
+
+<span style="color:var(--red)">
+B :
+<span id="bCount">0</span>
+</span>
+
+<span style="color:var(--green)">
+T :
+<span id="tCount">0</span>
+</span>
+
+<span style="color:var(--gold)">
+TOTAL :
+<span id="totalCount">0</span>
+</span>
+
+</div>
+
+<div class="history-row">
+    <canvas id="beadRoad" class="road"></canvas>
+</div>
+<div id="systemsList" class="systems-grid"></div>
+    </div>
+</div>
+
+<script>
+// ===== CONFIGURATION =====
+
+const EXPIRE_DATE = new Date(2026,7,08,23,59,59);
+
+const SYSTEMS_DEF = [
+    {name: "DNA ALPHA", fn: h => h.at(-1), type: "trend"},
+    {name: "DNA BETA",  fn: h => h.at(-1) === "P" ? "B" : "P", type: "pingpong"},
+    {name: "DNA GAMMA", fn: h => h.length >= 2 && h.at(-1) == h.at(-2) ? h.at(-1) : (h.at(-1) === "P" ? "B" : "P"), type: "trend"},
+    {name: "DNA DELTA", fn: h => h.length % 2 === 0 ? "P" : "B", type: "random"},
+    {name: "DNA EPSILON", fn: h => h.length >= 3 && new Set(h.slice(-3)).size === 1 ? h.at(-1) : (h.at(-1) === "P" ? "B" : "P"), type: "trend"},
+    {name: "DNA ZETA",  fn: h => h.filter(x => x === "P").length <= h.filter(x => x === "B").length ? "P" : "B", type: "balance"},
+    {name: "DNA ETA",   fn: h => h.slice(-5).filter(x => x === "P").length > h.slice(-5).filter(x => x === "B").length ? "P" : "B", type: "trend"},
+    {name: "DNA THETA", fn: h => h.length >= 4 && new Set(h.slice(-4)).size === 1 ? (h.at(-1) === "P" ? "B" : "P") : h.at(-1), type: "pingpong"},
+ {name: "DNA IOTA",  fn: h => h.slice(-6).filter(x => x === "P").length > h.slice(-6).filter(x => x === "B").length ? "P" : "B", type: "trend"},
+
+{
+    name:"DNA KAPPA",
+    fn:h=>{
+
+        if(h.length<6) return h.at(-1);
+
+        let p=0,b=0;
+
+        h.slice(-6).forEach((x,i)=>{
+
+            const w=i+1;
+
+            if(x=="P") p+=w;
+            else b+=w;
+
+        });
+
+        return p>=b ? "P":"B";
+
+    },
+    type:"trend"
+},
+
+{
+    name:"DNA LAMBDA",
+    fn:h=>{
+
+        const last8=h.slice(-8);
+
+        const p=last8.filter(x=>x=="P").length;
+        const b=last8.filter(x=>x=="B").length;
+
+        if(Math.abs(p-b)>=4){
+
+            return p>b ? "B":"P";
+
+        }
+
+        return h.at(-1);
+
+    },
+    type:"balance"
+},
+
+{
+    name:"DNA OMEGA",
+    fn:h=>{
+
+        if(h.length<7) return h.at(-1);
+
+        let sw=0;
+
+        const s=h.slice(-7);
+
+        for(let i=1;i<s.length;i++){
+
+            if(s[i]!=s[i-1]) sw++;
+
+        }
+
+        if(sw>=5){
+
+            return s.at(-1)=="P" ? "B":"P";
+
+        }
+
+        return s.at(-1);
+
+    },
+    type:"entropy"
+}
+
+];
+
+// ===== STATE =====
+let history = [];
+let sysWeights = Array(12).fill(1.0);
+let sysWinRates = Array(12).fill(0);
+let sysHistory = Array.from({length: 12}, () => []);
+//========================
+// PATTERN MEMORY
+//========================
+
+const patternDB = {};
+const markovDB = {};
+
+const PATTERN_MIN = 3;
+const PATTERN_MAX = 10;
+function buildPatternMemory(){
+
+    Object.keys(patternDB).forEach(k=>delete patternDB[k]);
+Object.keys(markovDB).forEach(k=>delete markovDB[k]);
+
+    const h = history.filter(x=>x!="T");
+
+    for(let len=PATTERN_MIN;len<=PATTERN_MAX;len++){
+
+        for(let i=0;i<=h.length-len-1;i++){
+
+            const key = h.slice(i,i+len).join("");
+
+            const next = h[i+len];
+            if(len==2){
+
+const state=key;
+
+if(!markovDB[state]){
+
+markovDB[state]={P:0,B:0};
+
+}
+
+markovDB[state][next]++;
+
+}
+
+            if(!patternDB[key]){
+
+                patternDB[key]={P:0,B:0};
+
+            }
+
+           const age = h.length - (i + len);
+
+const recencyWeight =
+Math.exp(-age/25);
+
+patternDB[key][next]+=recencyWeight;
+
+        }
+
+    }
+
+}
+// ===== 1. DNA Cross-Validation =====
+function processDNAValidation() {
+    if (history.length === 0) return;
+    sysWeights.fill(1.0);
+    let tempH = [];
+   let wins = Array(12).fill(0);
+let plays = Array(12).fill(0);
+
+sysHistory = Array.from({length: 12}, () => []);
+   history.forEach((res) => {
+
+    // ข้าม Tie ไปเลย
+    if (res === "T") return;
+
+    if (tempH.length > 0) {
+
+        SYSTEMS_DEF.forEach((sys, i) => {
+
+            const pred = sys.fn(tempH);
+
+            plays[i]++;
+
+            if(pred === res){
+
+                wins[i]++;
+
+                sysHistory[i].push(true);
+
+                const liveWR = wins[i] / plays[i];
+
+                sysWeights[i] =
+                    sysWeights[i] * 1.10 +
+                    liveWR * 0.25;
+
+            }else{
+
+                sysHistory[i].push(false);
+
+                sysWeights[i] *= 0.80;
+
+            }
+
+        });
+
+    }
+
+    tempH.push(res);
+
+});
+    const maxW = Math.max(...sysWeights);
+    sysWeights = sysWeights.map(w => w / maxW);
+    sysWinRates = wins.map((w, i) => plays[i] ? (w / plays[i]) : 0);
+}
+
+// ===== 2. Predictive Shoe Analytics =====
+function analyzeShoeProfile() {
+    const hNoT = history.filter(x => x !== 'T');
+    if (hNoT.length < 5)
+    return {
+        type: "ANALYZING",
+        desc: "กำลังรวบรวมข้อมูล..."
+    };
+    const last10 = hNoT.slice(-10);
+    let swaps = 0;
+    for (let i = 1; i < last10.length; i++) if (last10[i] !== last10[i-1]) swaps++;
+    const swapRate = swaps / (last10.length - 1);
+    if (swapRate < 0.3) return {type: "DRAGON", desc: "ขอนมังกร (Dragon Shoe)"};
+    if (swapRate > 0.7) return {type: "PINGPONG", desc: "ขอนปิงปอง (Ping Pong Shoe)"};
+    return {type: "RANDOM", desc: "ขอนสุ่ม (Random Shoe)"};
+}
+function searchPattern(){
+
+    const h=history.filter(x=>x!="T");
+
+    let scoreP=0;
+
+    let scoreB=0;
+
+    for(let len=PATTERN_MAX;len>=PATTERN_MIN;len--){
+
+        if(h.length<len) continue;
+
+        const key=h.slice(-len).join("");
+
+        if(!patternDB[key]) continue;
+
+        const p=patternDB[key].P;
+
+        const b=patternDB[key].B;
+
+        const total=p+b;
+
+        if(total==0) continue;
+
+        const weight=len;
+
+        scoreP+=(p/total)*weight;
+
+        scoreB+=(b/total)*weight;
+
+    }
+
+    return{
+
+        scoreP,
+
+        scoreB
+
+    };
+
+}
+function searchMarkov(){
+
+const h=history.filter(x=>x!="T");
+
+if(h.length<2){
+
+return{
+P:0,
+B:0
+};
+
+}
+
+const state=h.slice(-2).join("");
+
+const d=markovDB[state];
+
+if(!d){
+
+return{
+P:0,
+B:0
+};
+
+}
+
+const total=d.P+d.B;
+
+return{
+
+P:d.P/total,
+
+B:d.B/total
+
+};
+
+}
+function metaEngine(){
+
+    const pattern=searchPattern();
+
+    return{
+
+        patternP:pattern.scoreP,
+
+        patternB:pattern.scoreB
+
+    };
+
+}
+// ===== 3. Confidence Probability =====
+function calculateQuantumPrediction() {
+    const hNoT = history.filter(x => x !== 'T');
+   if (hNoT.length === 0) {
+    return {
+        side: null,
+        prob: 0,
+        consensus: 0,
+        reason: "ใส่ผลไพ่เพื่อเริ่มวิเคราะห์..."
+    };
+}
+const shoe = analyzeShoeProfile();
+let regimeBonus=1;
+
+if(shoe.type=="DRAGON"){
+
+regimeBonus=1.35;
+
+}
+
+if(shoe.type=="PINGPONG"){
+
+regimeBonus=1.25;
+
+}
+
+if(shoe.type=="RANDOM"){
+
+regimeBonus=0.9;
+
+}
+const meta = metaEngine();
+const markov = searchMarkov();
+
+let scoreP = 0;
+let scoreB = 0;
+let consensus = 0;
+
+// Pattern Memory
+scoreP += meta.patternP;
+scoreB += meta.patternB;
+scoreP += markov.P*6;
+
+scoreB += markov.B*6;
+
+// =========================
+// Pattern Memory Engine
+// =========================
+
+const memory = searchPattern();
+
+scoreP += memory.scoreP;
+scoreB += memory.scoreB;
+
+// =========================
+
+SYSTEMS_DEF.forEach((sys, i) => {
+        const pred = sys.fn(hNoT);
+        if (!pred) return;
+        let shoeMultiplier = 1.0;
+        if (shoe.type === "DRAGON" && sys.type === "pingpong") shoeMultiplier = 0.3;
+        if (shoe.type === "PINGPONG" && sys.type === "trend") shoeMultiplier = 0.3;
+        let momentum = 1.0;
+        const last3 = sysHistory[i].slice(-3);
+        if (last3.length === 3 && last3.every(x => x)) momentum = 1.5;
+        if (last3.length === 3 && last3.every(x => !x)) momentum = 0.5;
+        const weight =
+
+sysWeights[i]
+
+*
+
+(sysWinRates[i]||0.5)
+
+*
+
+shoeMultiplier
+
+*
+
+momentum
+
+*
+
+regimeBonus;
+
+       if (pred === "P") {
+    scoreP += weight;
+}
+
+if (pred === "B") {
+    scoreB += weight;
+}
+    });
+    consensus = 0;
+
+SYSTEMS_DEF.forEach(sys => {
+
+    const p = sys.fn(hNoT);
+
+    if (p === (scoreP > scoreB ? "P" : "B")) {
+
+        consensus++;
+
+    }
+
+});
+const total = scoreP + scoreB;
+
+if (total === 0) {
+    return {
+        side: null,
+        prob: 0,
+        reason: "รวบรวมข้อมูล DNA...",
+        consensus
+    };
+}
+
+// ===== Bayesian Confidence =====
+
+const alpha = 3;
+const beta = 3;
+
+const pProb =
+    (scoreP + alpha) /
+    (scoreP + scoreB + alpha + beta);
+
+const bProb =
+    (scoreB + alpha) /
+    (scoreP + scoreB + alpha + beta);
+
+const sample = history.filter(x => x !== "T").length;
+
+const sampleBoost = Math.min(sample / 80, 1);
+
+const prob = Math.round(
+    Math.max(pProb, bProb) *
+    100 *
+    sampleBoost
+);
+
+const side = pProb > bProb ? "P" : "B";
+
+// ===========================
+
+let reason =
+    prob > 85
+        ? `🔥 ความแม่นยำสูงสุด! ตรวจพบรูปแบบที่เสถียรใน ${shoe.desc}`
+        : (
+            prob > 70
+                ? `⚡ สัญญาณแรง มั่นใจในระดับสูงตามตรรกะ ${shoe.type}`
+                : `📡 สัญญาณปกติ แนะนำเดินเงินอย่างระมัดระวัง`
+        );
+
+return {
+    side,
+    prob,
+    reason,
+    consensus
+};
+}
+// ===== UI UPDATES =====
+
+
+function addResult(v){
+
+history.push(v);
+
+buildPatternMemory();
+
+processDNAValidation();
+
+updateUI();
+
+}
+function undo(){
+
+history.pop();
+
+buildPatternMemory();
+
+processDNAValidation();
+
+updateUI();
+
+}
+
+function clearAll() {
+
+    if(!confirm("Reset all data?")) return;
+
+    history = [];
+
+    Object.keys(patternDB).forEach(k => delete patternDB[k]);
+    Object.keys(markovDB).forEach(k => delete markovDB[k]);
+
+    sysWeights.fill(1.0);
+
+    sysWinRates.fill(0);
+
+    sysHistory = Array.from({length:12},()=>[]);
+
+    buildPatternMemory();
+
+    processDNAValidation();
+
+    updateUI();
+
+}
+
+function updateUI() {
+
+    const pred = calculateQuantumPrediction(),
+          shoe = analyzeShoeProfile();
+
+    const p = history.filter(x => x === "P").length;
+    const b = history.filter(x => x === "B").length;
+    const t = history.filter(x => x === "T").length;
+
+    document.getElementById("pCount").innerText = p;
+    document.getElementById("bCount").innerText = b;
+    document.getElementById("tCount").innerText = t;
+    document.getElementById("totalCount").innerText = history.length;
+
+    document.getElementById("qPredict").innerText =
+    pred.side
+        ? (pred.side === "P" ? "PLAYER" : "BANKER")
+        : "WAITING";
+    document.getElementById("qPredict").className = pred.side ? "side-" + pred.side : "side-wait";
+    document.getElementById("qConfidence").innerText = pred.prob + "%";
+   document.getElementById("qConsensus").innerText =
+(pred.consensus ?? 0) + " / 12";
+    document.getElementById("aiReasoning").innerText = pred.reason;
+    document.getElementById("shoeProfile").innerText = shoe.desc;
+    renderSystems(); drawRoads();
+}
+
+function renderSystems() {
+
+    const list = document.getElementById("systemsList");
+    const hNoT = history.filter(x => x !== "T");
+
+    list.innerHTML = SYSTEMS_DEF.map((sys, i) => {
+
+        const pred = sys.fn(hNoT) || "-";
+        const wr = Math.round(sysWinRates[i] * 100);
+        const w = sysWeights[i].toFixed(2);
+
+        const hist = sysHistory[i]
+        .map(win =>
+            `<span style="background:${win ? 'var(--green)' : 'var(--red)'}"></span>`
+        )
+        .join("");
+
+        return `
+        <div class="sys-row ${sysWeights[i] > 0.9 ? 'radar-glow' : ''}">
+
+            <div class="sys-info">
+
+            <div class="sys-name">
+
+    <span class="sys-no">
+        ${i+1}.
+    </span>
+
+    ${sys.name}
+
+</div>
+
+                <div class="sys-weight">
+                    RELIABILITY : ${w}
+                </div>
+
+            </div>
+
+            <div class="sys-pred"
+                 style="color:${pred==="P"?"var(--blue)":"var(--red)"}">
+
+                 ${pred}
+
+            </div>
+
+            <div class="sys-stats">
+
+                WIN : ${wr}%
+
+            </div>
+
+            <div class="sys-history">
+
+                ${hist}
+
+            </div>
+
+        </div>
+        `;
+
+    }).join("");
+
+}
+function drawRoads(){
+
+    const beadC = document.getElementById("beadRoad");
+    const bdCtx = beadC.getContext("2d");
+
+    const ratio = window.devicePixelRatio || 1;
+
+    const rect = beadC.getBoundingClientRect();
+    if(rect.width === 0) return;
+
+    beadC.width = rect.width * ratio;
+    beadC.height = rect.height * ratio;
+
+    bdCtx.setTransform(ratio,0,0,ratio,0,0);
+
+
+    bdCtx.clearRect(
+        0,
+        0,
+        rect.width,
+        rect.height
+    );
+
+
+    const cell = 18;
+    const font = 13;
+
+    bdCtx.textAlign="center";
+    bdCtx.textBaseline="middle";
+    bdCtx.font="bold "+font+"px Arial";
+
+/* ===== วางตรงนี้ ===== */
+
+bdCtx.strokeStyle = "#334155";
+bdCtx.lineWidth = 1;
+
+for(let c=0;c<40;c++){
+
+    for(let r=0;r<6;r++){
+
+        bdCtx.strokeRect(
+            c*cell,
+            r*cell,
+            cell,
+            cell
+        );
+
+    }
+
+}
+
+/* ===== จบตรงนี้ ===== */
+
+history.forEach((v,i)=>{
+
+    const row = i % 6;
+    const col = Math.floor(i/6);
+
+    if(col >= 15) return;
+
+    const x = col*cell + cell/2;
+    const y = row*cell + cell/2;
+
+    if(v==="P") bdCtx.fillStyle="#3b82f6";
+    else if(v==="B") bdCtx.fillStyle="#ef4444";
+    else bdCtx.fillStyle="#22c55e";
+
+    bdCtx.fillText(v,x,y);
+
+});
+
+
+}
+function togglePassword(){
+
+    const pass = document.getElementById("pass");
+    const check = document.getElementById("showPass");
+
+    if(check.checked){
+
+        pass.type = "text";
+
+    }else{
+
+        pass.type = "password";
+
+    }
+
+}
+function login(){
+
+    // ===== CHECK EXPIRE =====
+    const today = new Date();
+
+    if(today > EXPIRE_DATE){
+
+        document.getElementById("expireOverlay").style.display="flex";
+
+        document.getElementById("loginErr").innerText =
+        "LICENSE EXPIRED";
+
+        return;
+    }
+
+    // ========================
+
+    const user=document.getElementById("user").value;
+    const pass=document.getElementById("pass").value;
+
+    if(user==="1234" && pass==="1234"){
+
+        document.getElementById("loginOverlay").style.display="none";
+        document.getElementById("loginBox").style.display="none";
+        document.getElementById("app").style.display="flex";
+        document.getElementById("expiryBar").style.display="block";
+
+        updateUI();
+
+    }else{
+
+        document.getElementById("loginErr").innerText =
+        "User หรือ Password ไม่ถูกต้อง";
+
+    }
+
+}
+window.onload = ()=>{
+
+    const today = new Date();
+
+    if(today > EXPIRE_DATE){
+
+        document.getElementById("expireOverlay").style.display="flex";
+
+    }
+
+};
+
+</script>
+</body>
+</html>
