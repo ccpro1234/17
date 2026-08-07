@@ -51,10 +51,34 @@ letter-spacing:1px;
 /* ===== QUANTUM CORE (3 CORE SYSTEMS) ===== */
 .top{padding:16px;display:flex;flex-direction:column;gap:12px;}
 #quantumBox{
-    background:radial-gradient(circle at top left, rgba(34,211,238,0.15), transparent 70%), linear-gradient(180deg,var(--bg-card),var(--bg-deep));
-    border-radius:28px; padding:24px; border:1px solid rgba(34,211,238,0.4);
-    box-shadow:0 0 50px rgba(0,0,0,0.7), 0 0 25px rgba(34,211,238,0.15) inset;
-    position:relative; overflow:hidden;
+    background:
+        radial-gradient(circle at top left,
+            rgba(0,255,170,.28),
+            transparent 55%),
+
+        radial-gradient(circle at bottom right,
+            rgba(170,0,255,.22),
+            transparent 60%),
+
+        linear-gradient(135deg,
+            #081d17 0%,
+            #0d2d28 30%,
+            #251040 70%,
+            #12081f 100%);
+
+    border-radius:28px;
+    padding:24px;
+
+    border:1px solid rgba(110,255,210,.45);
+
+    box-shadow:
+        0 0 60px rgba(0,255,170,.15),
+        0 0 35px rgba(170,0,255,.18),
+        inset 0 0 35px rgba(110,255,210,.08),
+        0 20px 45px rgba(0,0,0,.65);
+
+    position:relative;
+    overflow:hidden;
 }
 #quantumBox::before{
     content:""; position:absolute; top:0; left:-100%; width:100%; height:100%;
@@ -64,7 +88,12 @@ letter-spacing:1px;
 @keyframes shine{ 0%{left:-100%} 100%{left:100%} }
 
 .q-header{display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;}
-.q-title{font-size:13px; font-weight:900; color:var(--cyan); letter-spacing:2px; text-transform:uppercase;}
+.q-title{
+    color:#8BFFD6;
+    text-shadow:
+        0 0 10px rgba(0,255,170,.6),
+        0 0 22px rgba(170,0,255,.35);
+}
 #shoeProfile{font-size:11px; padding:5px 12px; background:rgba(34,211,238,0.1); border-radius:20px; color:var(--cyan); border:1px solid rgba(34,211,238,0.2); font-weight:bold;}
 
 .q-main{display:flex; flex-direction:column; align-items:center; justify-content:center; margin:15px 0;}
